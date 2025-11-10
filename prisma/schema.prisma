@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  AUTHOR
+  ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model User {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  name       String?
+  bio        String?
+  avatarUrl  String?
+  password   String
+  role       Role      @default(USER)
+  posts      Post[]    @relation("AuthorPosts")
+  comments   Comment[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+  @@unique([name])
+}
+
+model Post {
+  id           String      @id @default(uuid())
+  title        String
+  slug         String      @unique
+  excerpt      String?
+  content      String
+  status       PostStatus  @default(DRAFT)
+  publishedAt  DateTime?
+  author       User?       @relation("AuthorPosts", fields: [authorId], references: [id])
+  authorId     String?
+  category     Category?   @relation(fields: [categoryId], references: [id])
+  categoryId   Int?
+  tags         Tag[]
+  comments     Comment[]
+  views        Int         @default(0)
+  readingTime  Int?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  deletedAt    DateTime?
+
+  @@index([status])
+  @@index([publishedAt])
+  @@index([authorId])
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  text       String
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     String
+  author     User?    @relation(fields: [authorId], references: [id])
+  authorId   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime?
+  isPublic   Boolean  @default(true)
+
+  @@index([postId])
+  @@index([authorId])
+}
