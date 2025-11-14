@@ -1,5 +1,6 @@
 import { db } from "../../prisma/db";
 import { updateUserData, userData } from "./user.service";
+ import bcrypt from 'bcrypt'
 
 export async function listUserRepository() {
   try {
@@ -34,8 +35,10 @@ export async function createUserRepository({
       throw new Error("User already exists");
     }
 
+    const  hashedPassword = await bcrypt.hash(password, 10)
+
     const newUser = await db.user.create({
-      data: { email, password, name, bio, avatarUrl },
+      data: { email, password: hashedPassword, name, bio, avatarUrl },
     });
 
     const { password: savedPassword, ...other } = newUser;

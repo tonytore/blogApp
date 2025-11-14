@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import * as svc from '../user/user.service'
 import { db } from '../../prisma/db'
+import bcrypt from 'bcrypt'
 
 const userControllers = {
   listUser : async (req:Request, res:Response) => {
@@ -45,6 +46,40 @@ updateUser : async (req:Request, res:Response) => {
     
   }
 },
+
+updateUserPasswordById : async(req:Request, res:Response) =>{
+  const { id } = req.params
+  const { password } = req.body
+  try {const user = await db.user.findUnique({where:{id}})
+  if(!user){
+    res.status(404).send({
+      data: null,
+      mas: "user not found"
+    })
+  }
+
+  const hashedPassword:string = await bcrypt.hash(password, 10)
+
+
+  const updatePassword = await db.user.update({
+    where: { email: user?.email },
+    data: { password: hashedPassword },
+
+  })
+
+  return res.status(200).json({
+    msg : "user password updated successfully",
+    data : updatePassword,
+    error: null
+  })
+    
+  } catch (error) {
+    
+  }
+
+},
+
+
 deleteUser : async (req:Request, res:Response) => {
   const {id} = req.params
   try {
