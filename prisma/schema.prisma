@@ -20,7 +20,7 @@ enum PostStatus {
 }
 
 model User {
-  id         String    @id @default(uuid())
+  id         String    @id @default(cuid())
   email      String    @unique
   name       String?
   bio        String?
@@ -35,7 +35,7 @@ model User {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(cuid())
   name      String   @unique
   slug      String   @unique
   posts     Post[]
@@ -44,7 +44,7 @@ model Category {
 }
 
 model Tag {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(cuid())
   name      String
   slug      String   @unique
   posts     Post[]
@@ -63,7 +63,7 @@ model Post {
   author       User?       @relation("AuthorPosts", fields: [authorId], references: [id])
   authorId     String?
   category     Category?   @relation(fields: [categoryId], references: [id])
-  categoryId   Int?
+  categoryId   String?
   tags         Tag[]
   comments     Comment[]
   views        Int         @default(0)
@@ -78,7 +78,7 @@ model Post {
 }
 
 model Comment {
-  id         Int      @id @default(autoincrement())
+  id         String      @id @default(cuid())
   text       String
   post       Post     @relation(fields: [postId], references: [id])
   postId     String
