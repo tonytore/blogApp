@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 import * as svc from '../user/user.service'
-import { db } from '../../prisma/db'
 import bcrypt from 'bcrypt'
+import { db } from '../config/db'
+import { successResponse } from '../utils/helper/response_helper'
 
 const userControllers = {
   listUser : async (req:Request, res:Response) => {
   try {
     const user = await svc.getUserService()
-  return res.status(200).json(user)
+  return successResponse(res, 'User List', user);
   } catch (error) {
     console.log(error);
     
@@ -17,7 +18,7 @@ createUser : async (req:Request, res:Response) => {
   const {email,password} = req.body
   try {
     const user = await svc.createUserService({email,password})
-  return res.status(200).json(user)
+  return successResponse(res, 'User Created', user, 201);
   } catch (error) {
     console.log(error);
     
@@ -36,11 +37,7 @@ updateUser : async (req:Request, res:Response) => {
     }
     const user = await svc.updateUserService({id,email,password,name,bio,avatarUrl})
     const {password:_pass, ...other} = user
-  return res.status(200).json({
-    msg : "user updated successfully",
-    data : other,
-    error: null
-  })
+  return successResponse(res, 'User Updated', user);
   } catch (error) {
     console.log(error);
     
@@ -67,11 +64,7 @@ updateUserPasswordById : async(req:Request, res:Response) =>{
 
   })
 
-  return res.status(200).json({
-    msg : "user password updated successfully",
-    data : updatePassword,
-    error: null
-  })
+  return successResponse(res, 'User Password updated', updatePassword);
     
   } catch (error) {
     
@@ -84,7 +77,7 @@ deleteUser : async (req:Request, res:Response) => {
   const {id} = req.params
   try {
     const user = await svc.deleteUserService(id)
-  return res.status(200).json("user deleted successfully")
+  return successResponse(res, 'User Deleted', user);
   } catch (error) {
     console.log(error);
     

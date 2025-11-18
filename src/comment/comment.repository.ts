@@ -1,8 +1,8 @@
-import { db } from "../../prisma/db";
+import { db } from "../config/db";
 import { createCommentPayload, updateCommentPayload } from "./comment.service";
 
 export async function listCommentRepository() {
-  const posts = await db.comment.findMany({
+  const comments = await db.comment.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -11,7 +11,7 @@ export async function listCommentRepository() {
       post: true,
     },
   });
-  return posts;
+  return comments;
 }
 
 export async function createCommentRepository({

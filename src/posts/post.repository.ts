@@ -1,4 +1,4 @@
-import { db } from "../../prisma/db";
+import { db } from "../config/db";
 import { createPostPayload, updatePostPayload } from "./post.service";
 
 export async function listPostRepository() {

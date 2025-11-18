@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as svc from "../posts/post.service";
 import { generateSlug } from "../../utils/generateSlug";
+import { successResponse } from "../utils/helper/response_helper";
 
 const postControllers = {
   listPosts:  (req: Request, res: Response) => {
@@ -11,7 +12,7 @@ const postControllers = {
       console.log(error);
     }
   },
-  createPosts:  (req: Request, res: Response) => {
+  createPosts:  async(req: Request, res: Response) => {
     const { title, excerpt, content, status, authorId, categoryId, views } =
       req.body;
     try {
@@ -25,7 +26,7 @@ const postControllers = {
         categoryId,
         views,
       });
-      return res.status(200).json(posts);
+      return successResponse(res, 'Post Created', posts,201);
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +47,7 @@ const postControllers = {
         categoryId,
         views,
       });
-      return res.status(200).json(post);
+      return successResponse(res, 'Post Updated', post);
     } catch (error) {
       console.log(error);
     }
@@ -55,8 +56,8 @@ const postControllers = {
   deletePosts:  (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-      const user = svc.deletePostService(id);
-      return res.status(200).json("post deleted successfully");
+      const post = svc.deletePostService(id);
+      return successResponse(res, 'Post Deleted', post);
     } catch (error) {
       console.log(error);
     }

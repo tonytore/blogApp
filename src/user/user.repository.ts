@@ -1,4 +1,4 @@
-import { db } from "../../prisma/db";
+import { db } from "../config/db";
 import { updateUserData, userData } from "./user.service";
  import bcrypt from 'bcrypt'
 
