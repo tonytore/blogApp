@@ -1,6 +1,5 @@
 import { PostStatus } from "@prisma/client";
 import * as repo from "../posts/post.repository";
-import { generateSlug } from "../utils/generateSlug";
 
 export interface createPostPayload {
   title: string;
@@ -31,13 +30,13 @@ export async function getPostService() {
 export async function createPostService({
   title,
   excerpt,
+  slug,
   content,
   status,
   authorId,
   categoryId,
   views,
 }: createPostPayload) {
-  const slug = generateSlug(title);
   return repo.createPostRepository({
     title,
     slug,

@@ -7,8 +7,8 @@ categoryRouter.get("/", categoryControllers.listCategory);
 
 categoryRouter.post("/", categoryControllers.createCategory);
 
-categoryRouter.put("/", categoryControllers.updateCategory);
+categoryRouter.put("/:id", categoryControllers.updateCategory);
 
-categoryRouter.delete("/", categoryControllers.deleteCategory);
+categoryRouter.delete("/:id", categoryControllers.deleteCategory);
 
 export default categoryRouter;

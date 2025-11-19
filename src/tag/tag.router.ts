@@ -7,8 +7,8 @@ tagRouter.get("/", tagControllers.listTag);
 
 tagRouter.post("/", tagControllers.createTag);
 
-tagRouter.put("/", tagControllers.updateTag);
+tagRouter.put("/:id", tagControllers.updateTag);
 
-tagRouter.delete("/", tagControllers.deleteTag);
+tagRouter.delete("/:id", tagControllers.deleteTag);
 
 export default tagRouter;

@@ -40,13 +40,6 @@ async function main() {
     },
   });
 
-  const lifestyle = await prisma.category.create({
-    data: {
-      name: "Lifestyle",
-      slug: "lifestyle",
-    },
-  });
-
   // 3. Create tags
   const [tagNode, tagPrisma] = await Promise.all([
     prisma.tag.create({ data: { name: "Node.js", slug: "nodejs" } }),

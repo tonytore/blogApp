@@ -7,8 +7,8 @@ commentRouter.get("/", commentControllers.listComment);
 
 commentRouter.post("/", commentControllers.createComment);
 
-commentRouter.put("/", commentControllers.updateComment);
+commentRouter.put("/:id", commentControllers.updateComment);
 
-commentRouter.delete("/", commentControllers.deleteComment);
+commentRouter.delete("/:id", commentControllers.deleteComment);
 
 export default commentRouter;

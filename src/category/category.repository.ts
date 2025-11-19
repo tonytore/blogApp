@@ -1,4 +1,3 @@
-import { generateSlug } from "@/utils/generateSlug";
 import { db } from "../config/db";
 import {
   createCategoryPayload,
@@ -6,24 +5,32 @@ import {
 } from "./category.service";
 
 export async function listCategoryRepository() {
-  const posts = await db.comment.findMany({
+  const categories = await db.category.findMany({
     orderBy: {
       createdAt: "desc",
     },
     include: {
-      post: true,
+      posts: true,
     },
   });
-  return posts;
+  return categories;
+}
+
+export async function getCategoryBySlug(slug: string){
+  const c = await db.category.findUnique({
+   where: {slug}
+  })
+
+  return c
 }
 
 export async function createCategoryRepository({
-  name,
+  name,slug
 }: createCategoryPayload) {
   const category = await db.category.create({
     data: {
       name,
-      slug: generateSlug(name),
+      slug
     },
   });
   return category;

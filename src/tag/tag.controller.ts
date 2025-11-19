@@ -1,34 +1,35 @@
 import { Request, Response } from "express";
 import * as svc from "./tag.service";
-import { successResponse } from "@/utils/helper/response_helper";
+import { errorResponse, successResponse } from "@/utils/helper/response_helper";
+import { generateSlug } from "@/utils/generateSlug";
 
 const tagControllers = {
-  listTag: (req: Request, res: Response) => {
+  listTag: async(req: Request, res: Response) => {
     try {
-      const tag = svc.listTagService();
+      const tag = await svc.listTagService();
 
       return successResponse(res, "Tag List", tag);
     } catch (error) {
-      console.error(error);
+      return errorResponse(res, 'error', error)
     }
   },
-  createTag: (req: Request, res: Response) => {
+  createTag: async(req: Request, res: Response) => {
     const { name } = req.body;
 
-    const createTag = svc.createTag({ name });
+    const createTag = await svc.createTag({ name,slug:generateSlug(name) });
     return successResponse(res, "Tag Created", createTag);
   },
-  updateTag: (req: Request, res: Response) => {
+  updateTag: async(req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
-    const updatedTag = svc.updateTag({ id, name });
+    const updatedTag = await svc.updateTag({ id, name });
 
     return successResponse(res, "Tag Updated", updatedTag);
   },
 
-  deleteTag: (req: Request, res: Response) => {
+  deleteTag: async(req: Request, res: Response) => {
     const { id } = req.params;
-    const deleteTag = svc.deleteTagService(id);
+    const deleteTag = await svc.deleteTagService(id);
 
     return successResponse(res, "Tag Deleted", deleteTag);
   },

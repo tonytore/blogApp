@@ -1,34 +1,35 @@
 import { Request, Response } from "express";
 import * as svc from "./category.service";
 import { successResponse } from "@/utils/helper/response_helper";
+import { generateSlug } from "@/utils/generateSlug";
 
 const categoryControllers = {
-  listCategory: (req: Request, res: Response) => {
+  listCategory: async(req: Request, res: Response) => {
     try {
-      const category = svc.listCategoryService();
+      const category = await svc.listCategoryService();
 
       return successResponse(res, "Category List", category);
     } catch (error) {
       console.error(error);
     }
   },
-  createCategory: (req: Request, res: Response) => {
+  createCategory: async(req: Request, res: Response) => {
     const { name } = req.body;
 
-    const createCategory = svc.createCategory({ name });
+    const createCategory = await svc.createCategory({ name, slug:generateSlug(name)});
     return successResponse(res, "Category Created", createCategory);
   },
-  updateCategory: (req: Request, res: Response) => {
+  updateCategory: async(req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
-    const updatedCategory = svc.updateCategory({ id, name });
+    const updatedCategory = await svc.updateCategory({ id, name });
 
     return successResponse(res, "Category Updated", updatedCategory);
   },
 
-  deleteCategory: (req: Request, res: Response) => {
+  deleteCategory: async(req: Request, res: Response) => {
     const { id } = req.params;
-    const deleteCategory = svc.deleteCategoryService(id);
+    const deleteCategory = await svc.deleteCategoryService(id);
 
     return successResponse(res, "Category Deleted", deleteCategory);
   },

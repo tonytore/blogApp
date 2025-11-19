@@ -4,14 +4,16 @@ import { postRouter } from "./posts/post.route";
 import commentRouter from "./comment/comment.router";
 import tagRouter from "./tag/tag.router";
 import appConfig from "./config/app_configs";
+import categoryRouter from "./category/category.router";
 
 const app = express();
 
 app.use(express.json());
 app.use("/user", userRouter);
-app.use("/post", postRouter);
-app.use("comment", commentRouter);
-app.use("tag", tagRouter);
+app.use("/posts", postRouter);
+app.use("/comment", commentRouter);
+app.use("/tag", tagRouter);
+app.use("/category", categoryRouter);
 
 app.listen(appConfig.PORT, () => {
   console.log(`server is running on port http://localhost:${appConfig.PORT}`);

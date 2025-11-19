@@ -22,6 +22,15 @@ export async function listPostRepository() {
   }
 }
 
+
+export async function getPostBySlug(slug: string){
+  const c = await db.post.findUnique({
+   where: {slug}
+  })
+
+  return c
+}
+
 export async function createPostRepository({
   title,
   slug,

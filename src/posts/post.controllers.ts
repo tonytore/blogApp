@@ -4,9 +4,9 @@ import { generateSlug } from "@/utils/generateSlug";
 import { successResponse } from "@/utils/helper/response_helper";
 
 const postControllers = {
-  listPosts: (req: Request, res: Response) => {
+  listPosts: async(req: Request, res: Response) => {
     try {
-      const post = svc.getPostService();
+      const post = await svc.getPostService();
       return res.status(200).json(post);
     } catch (error) {
       console.log(error);
@@ -16,7 +16,7 @@ const postControllers = {
     const { title, excerpt, content, status, authorId, categoryId, views } =
       req.body;
     try {
-      const posts = svc.createPostService({
+      const posts = await svc.createPostService({
         title,
         slug: generateSlug(title),
         excerpt,
@@ -32,12 +32,12 @@ const postControllers = {
     }
   },
 
-  updatePosts: (req: Request, res: Response) => {
+  updatePosts: async (req: Request, res: Response) => {
     const { id } = req.params;
     const { title, excerpt, content, status, authorId, categoryId, views } =
       req.body;
     try {
-      const post = svc.updatePostService({
+      const post = await svc.updatePostService({
         id,
         title,
         excerpt,
@@ -53,10 +53,10 @@ const postControllers = {
     }
   },
 
-  deletePosts: (req: Request, res: Response) => {
+  deletePosts: async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-      const post = svc.deletePostService(id);
+      const post = await svc.deletePostService(id);
       return successResponse(res, "Post Deleted", post);
     } catch (error) {
       console.log(error);

@@ -1,4 +1,3 @@
-import { generateSlug } from "@/utils/generateSlug";
 import { db } from "../config/db";
 import { createTagPayload, updateTagPayload } from "./tag.service";
 
@@ -14,11 +13,19 @@ export async function listTagRepository() {
   return tags;
 }
 
-export async function createTagRepository({ name }: createTagPayload) {
+export async function getTagBySlug(slug: string){
+  const c = await db.tag.findUnique({
+   where: {slug}
+  })
+
+  return c
+}
+
+export async function createTagRepository({ name,slug }: createTagPayload) {
   const tag = await db.tag.create({
     data: {
       name,
-      slug: generateSlug(name),
+      slug
     },
   });
   return tag;
