@@ -1,96 +1,96 @@
-import winston, { Logger } from 'winston';
-import appConfig from '../../config/app_configs.js';
-import LokiTransport from 'winston-loki';
+import appConfig from "@/config/app_configs";
+import winston, { Logger } from "winston";
+import LokiTransport from "winston-loki";
 
-const winstonLogger = (
-  lokiUrl: string,
-  name: string,
-  level: string,
-  nodeEnv: 'development' | 'production',
-): Logger => {
-  const options = {
-    console: {
-      level,
-      handleExceptions: true,
-      format: winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.colorize({ all: true }),
-        winston.format.printf(({ level, message, label, timestamp }) => {
-          return `${timestamp} [${label || name}] ${level}: ${message}`;
-        }),
-      ),
-      json: false,
-    },
-    file: {
-      level: level,
-      handleExceptions: true,
-      format: winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
-        winston.format.printf(({ level, message, label, timestamp }) => {
-          return `${timestamp} [${label || name}] ${level}: ${message}`;
-        }),
-      ),
-    },
-    loki: {
-      labels: { app: name, environment: nodeEnv },
-      level,
-      host: lokiUrl,
-      format: winston.format.json(),
-      replaceTimestamp: true,
-      onConnectionError: (err: unknown) => console.error(err),
-    },
-  };
+interface LoggerOptions {
+  serviceName?: string;
+  level?: string;
+  nodeEnv?: "development" | "production";
+  lokiUrl?: string;
+  enableLoki?: boolean; // ← New: control Loki separately
+  enableConsole?: boolean; // ← Optional: control console in prod too
+  logDir?: string; // ← Make log directory configurable
+}
 
-  let transports: winston.transport[] = [];
+const createLogger = (options: LoggerOptions = {}): Logger => {
+  const {
+    serviceName = appConfig.APP_NAME || "BLOG Backend",
+    level = "info",
+    nodeEnv = (appConfig.NODE_ENV as "development" | "production") ||
+      "development",
+    lokiUrl = appConfig.LOKI_URL || "http://116.202.87.235:3100",
+    enableLoki = !!appConfig.LOKI_URL && nodeEnv === "production", // auto-enable in prod if URL exists
+    enableConsole = nodeEnv === "development",
+    logDir = "logs",
+  } = options;
 
-  if (nodeEnv === 'development') {
-    transports = [
-      new winston.transports.Console(options.console),
+  const transports: winston.transport[] = [];
 
-      new winston.transports.File({
-        ...options.file,
-        filename: 'logs/error.log',
-        level: 'error',
+  // 1. Console (only in development by default)
+  if (enableConsole) {
+    transports.push(
+      new winston.transports.Console({
+        level,
+        handleExceptions: true,
+        format: winston.format.combine(
+          winston.format.colorize({ all: true }),
+          winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+          winston.format.printf(({ timestamp, level, message, label }) => {
+            const lbl = label || serviceName;
+            return `${timestamp} [${lbl}] ${level}: ${message}`;
+          }),
+        ),
       }),
-
-      new winston.transports.File({
-        ...options.file,
-        filename: 'logs/app.log',
-      }),
-
-      new LokiTransport(options.loki),
-    ];
-  } else {
-    transports = [
-      new winston.transports.File({
-        ...options.file,
-        filename: 'logs/error.log',
-        level: 'error',
-      }),
-
-      new winston.transports.File({
-        ...options.file,
-        filename: 'logs/app.log',
-      }),
-
-      new LokiTransport(options.loki),
-    ];
+    );
   }
 
-  const logger: Logger = winston.createLogger({
+  // 2. File logs (always in both envs unless disabled)
+  transports.push(
+    new winston.transports.File({
+      filename: `${logDir}/error.log`,
+      level: "error",
+      handleExceptions: true,
+      format: winston.format.combine(
+        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }),
+        winston.format.json(),
+      ),
+    }),
+    new winston.transports.File({
+      filename: `${logDir}/app.log`,
+      level,
+      format: winston.format.combine(
+        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }),
+        winston.format.json(),
+      ),
+    }),
+  );
+
+  // 3. Loki (conditionally added)
+  if (enableLoki && lokiUrl) {
+    transports.push(
+      new LokiTransport({
+        host: lokiUrl,
+        labels: { app: serviceName, environment: nodeEnv },
+        level,
+        format: winston.format.json(),
+        replaceTimestamp: true,
+        onConnectionError: (err) =>
+          console.error("Loki connection error:", err),
+      }),
+    );
+  }
+
+  const logger = winston.createLogger({
+    level,
+    defaultMeta: { service: serviceName },
     exitOnError: false,
-    defaultMeta: { service: name },
-    transports: transports,
+    transports,
   });
 
   return logger;
 };
 
-const logger = winstonLogger(
-  appConfig.LOKI_URL || 'http://116.202.87.235:3100',
-  appConfig.APP_NAME || 'ESL Backend',
-  'info',
-  appConfig.NODE_ENV || 'development',
-);
+// Default logger (used in most cases)
+const logger = createLogger();
 
-export { logger };
+export { logger, createLogger };

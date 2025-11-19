@@ -12,9 +12,9 @@ export async function listPostRepository() {
         category: true,
         comments: true,
         tags: true,
-      }
+      },
     });
-    
+
     return posts;
   } catch (error) {
     console.error(error);
@@ -30,7 +30,7 @@ export async function createPostRepository({
   status,
   authorId,
   categoryId,
-  views
+  views,
 }: createPostPayload) {
   try {
     const newPost = await db.post.create({
@@ -42,7 +42,7 @@ export async function createPostRepository({
         status,
         authorId,
         categoryId,
-        views
+        views,
       },
     });
     return newPost;
@@ -60,7 +60,7 @@ export async function updatePostRepository({
   status,
   authorId,
   categoryId,
-  views
+  views,
 }: updatePostPayload) {
   try {
     const updatedPost = await db.post.update({

@@ -1,4 +1,4 @@
-import * as repo from "./comment.repository"
+import * as repo from "./comment.repository";
 
 export type createCommentPayload = {
   text: string;
@@ -12,19 +12,23 @@ export type updateCommentPayload = {
   text: string;
 };
 
-
-export async function listCommentService(){
-    return repo.listCommentRepository()
+export async function listCommentService() {
+  return repo.listCommentRepository();
 }
 
-export async function createComment({text,postId,authorId,isPublic}:createCommentPayload){
-    return repo.createCommentRepository({text,postId,authorId,isPublic})
+export async function createComment({
+  text,
+  postId,
+  authorId,
+  isPublic,
+}: createCommentPayload) {
+  return repo.createCommentRepository({ text, postId, authorId, isPublic });
 }
 
-export async function updateComment({id,text}:updateCommentPayload){
-    return repo.updateCommentRepository({id,text})
+export async function updateComment({ id, text }: updateCommentPayload) {
+  return repo.updateCommentRepository({ id, text });
 }
 
-export async function deleteCommentService(id:string){
-    return repo.deleteCommentRepository(id)
+export async function deleteCommentService(id: string) {
+  return repo.deleteCommentRepository(id);
 }

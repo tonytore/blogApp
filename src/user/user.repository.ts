@@ -1,6 +1,6 @@
 import { db } from "../config/db";
 import { updateUserData, userData } from "./user.service";
- import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 export async function listUserRepository() {
   try {
@@ -11,6 +11,7 @@ export async function listUserRepository() {
     });
     const filteredUsers = await users.map((user) => {
       const { password: _password, ...other } = user;
+      void _password;
       return other;
     });
     return filteredUsers;
@@ -35,13 +36,14 @@ export async function createUserRepository({
       throw new Error("User already exists");
     }
 
-    const  hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await db.user.create({
       data: { email, password: hashedPassword, name, bio, avatarUrl },
     });
 
     const { password: savedPassword, ...other } = newUser;
+    void savedPassword;
 
     return other;
   } catch (error) {

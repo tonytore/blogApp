@@ -1,37 +1,36 @@
 import { Request, Response } from "express";
 import * as svc from "./tag.service";
-import { successResponse } from "../utils/helper/response_helper";
-
+import { successResponse } from "@/utils/helper/response_helper";
 
 const tagControllers = {
-  listTag: (req:Request,res:Response)=>{
+  listTag: (req: Request, res: Response) => {
     try {
-    const tag =  svc.listTagService();
+      const tag = svc.listTagService();
 
-    return successResponse(res, 'Tag List', tag);
+      return successResponse(res, "Tag List", tag);
     } catch (error) {
-        console.error(error)
+      console.error(error);
     }
-},
-  createTag: (req:Request,res:Response)=>{
-      const { name } = req.body
-  
-      const createTag =  svc.createTag({name})
-      return successResponse(res, 'Tag Created', createTag);
   },
-  updateTag: (req:Request,res:Response)=>{
-    const { id } = req.params
-    const { name } = req.body
-    const updatedTag = svc.updateTag({ id, name })
+  createTag: (req: Request, res: Response) => {
+    const { name } = req.body;
 
-    return successResponse(res, 'Tag Updated', updatedTag);
+    const createTag = svc.createTag({ name });
+    return successResponse(res, "Tag Created", createTag);
+  },
+  updateTag: (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    const updatedTag = svc.updateTag({ id, name });
+
+    return successResponse(res, "Tag Updated", updatedTag);
   },
 
-  deleteTag: (req:Request,res:Response) => {
-    const { id } = req.params
-    const deleteTag =  svc.deleteTagService(id);
+  deleteTag: (req: Request, res: Response) => {
+    const { id } = req.params;
+    const deleteTag = svc.deleteTagService(id);
 
-    return successResponse(res, 'Tag Deleted', deleteTag);
+    return successResponse(res, "Tag Deleted", deleteTag);
   },
 };
 

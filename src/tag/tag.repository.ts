@@ -8,28 +8,23 @@ export async function listTagRepository() {
       createdAt: "desc",
     },
     include: {
-      posts: true
+      posts: true,
     },
   });
   return tags;
 }
 
-export async function createTagRepository({
- name,
-}: createTagPayload) {
+export async function createTagRepository({ name }: createTagPayload) {
   const tag = await db.tag.create({
     data: {
       name,
-      slug:generateSlug(name)
+      slug: generateSlug(name),
     },
   });
   return tag;
 }
 
-export async function updateTagRepository({
-  id,
-  name,
-}: updateTagPayload) {
+export async function updateTagRepository({ id, name }: updateTagPayload) {
   const tag = await db.tag.update({
     where: {
       id,

@@ -4,25 +4,24 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"],
-      "@src/*": ["./src/*"]
+      "@/*": ["*"]
     }
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/prisma/**/*.ts",
-    "./src/prisma/**/*.js",
+    "src/**/*",
+    "prisma/**/*",
     "Dockerfile"
   ],
   "exclude": ["node_modules", "dist", "prisma"]

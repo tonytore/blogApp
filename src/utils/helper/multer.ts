@@ -1,13 +1,13 @@
-import multer, { Multer } from 'multer';
-import path from 'path';
-import fs from 'fs';
-import { createId } from '@paralleldrive/cuid2';
+import multer, { Multer } from "multer";
+import path from "path";
+import fs from "fs";
+import { createId } from "@paralleldrive/cuid2";
 
-export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
+export const UPLOAD_DIR = path.join(process.cwd(), "uploads");
 
 export const upload = (filePath: string): Multer => {
   const DIR = path.join(UPLOAD_DIR, `/${filePath}`);
-  console.log('DIR', DIR);
+  console.log("DIR", DIR);
 
   if (!fs.existsSync(DIR)) {
     fs.mkdirSync(DIR, { recursive: true });
@@ -21,7 +21,7 @@ export const upload = (filePath: string): Multer => {
       const ext = path.extname(file.originalname);
       const base = path
         .basename(file.originalname, ext)
-        .replace(/\s+/g, '_')
+        .replace(/\s+/g, "_")
         .slice(0, 50);
       cb(null, `${base}-${createId()}${ext}`);
     },

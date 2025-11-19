@@ -1,15 +1,14 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import commentControllers from "./comment.controller";
 
 const commentRouter = Router();
 
+commentRouter.get("/", commentControllers.listComment);
 
-commentRouter.get('/',commentControllers.listComment)
+commentRouter.post("/", commentControllers.createComment);
 
-commentRouter.post('/',commentControllers.createComment)
+commentRouter.put("/", commentControllers.updateComment);
 
-commentRouter.put('/',commentControllers.updateComment)
+commentRouter.delete("/", commentControllers.deleteComment);
 
-commentRouter.delete('/',commentControllers.deleteComment)
-
-export default commentRouter
+export default commentRouter;

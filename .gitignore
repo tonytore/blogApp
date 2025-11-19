@@ -1,5 +1,15 @@
 node_modules
 # Keep environment variables out of version control
 .env
-
+node_modules/
+dist
 /generated/prisma
+todo.txt
+/generated/prisma
+
+dist/
+logs/
+*.js
+*.d.ts
+*.js.map
+!eslint.config.js

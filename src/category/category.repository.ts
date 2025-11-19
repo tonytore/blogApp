@@ -1,6 +1,9 @@
 import { generateSlug } from "@/utils/generateSlug";
 import { db } from "../config/db";
-import { createCategoryPayload, updateCategoryPayload } from "./category.service";
+import {
+  createCategoryPayload,
+  updateCategoryPayload,
+} from "./category.service";
 
 export async function listCategoryRepository() {
   const posts = await db.comment.findMany({
@@ -15,12 +18,12 @@ export async function listCategoryRepository() {
 }
 
 export async function createCategoryRepository({
- name,
+  name,
 }: createCategoryPayload) {
   const category = await db.category.create({
     data: {
       name,
-      slug:generateSlug(name)
+      slug: generateSlug(name),
     },
   });
   return category;

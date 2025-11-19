@@ -1,15 +1,16 @@
-import { logger } from '@/src/utils/logger/logger.js';
-import { Request, Response, NextFunction } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import { errorResponse } from '../helper/response_helper.js';
-import { CustomError } from './custom_error_handler.js';
-import { Prisma } from '@prisma/client';
+import { logger } from "@/utils/logger/logger.js";
+import { Request, Response, NextFunction } from "express";
+import { StatusCodes } from "http-status-codes";
+import { errorResponse } from "../helper/response_helper.js";
+import { CustomError } from "./custom_error_handler.js";
+import { Prisma } from "@prisma/client";
 const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
   _next: NextFunction,
 ): void => {
+  void _next;
   if (res.headersSent) {
     logger.error({ message: err.message, stack: err.stack, ip: req.ip });
     return;
@@ -25,8 +26,8 @@ const errorHandler = (
       status: errorDetails.status,
       stack: err.stack,
       ip: req.ip,
-      userAgent: req.get('User-Agent'),
-      requestId: req.headers['x-request-id'] || 'N/A',
+      userAgent: req.get("User-Agent"),
+      requestId: req.headers["x-request-id"] || "N/A",
     });
 
     errorResponse(
@@ -38,25 +39,25 @@ const errorHandler = (
     return;
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     logger.error(`${err}`);
-    let errorMessage = 'Database error occurred';
+    let errorMessage = "Database error occurred";
     let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-    const comingFrom = 'Prisma';
+    const comingFrom = "Prisma";
 
     switch (err.code) {
-      case 'P2025':
-        errorMessage = 'Resource not found';
+      case "P2025":
+        errorMessage = "Resource not found";
         statusCode = StatusCodes.NOT_FOUND;
         break;
-      case 'P2002':
-        errorMessage = 'Conflict with existing resource';
+      case "P2002":
+        errorMessage = "Conflict with existing resource";
         statusCode = StatusCodes.BAD_REQUEST;
         break;
-      case 'P2003':
-        errorMessage = 'Foreign key constraint violation';
+      case "P2003":
+        errorMessage = "Foreign key constraint violation";
         statusCode = StatusCodes.BAD_REQUEST;
         break;
       default:
-        errorMessage = 'Database error occurred';
+        errorMessage = "Database error occurred";
         statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
         break;
     }
@@ -67,8 +68,8 @@ const errorHandler = (
       comingFrom: comingFrom,
       stack: err.stack,
       ip: req.ip,
-      userAgent: req.get('User-Agent'),
-      requestId: req.headers['x-request-id'] || 'N/A',
+      userAgent: req.get("User-Agent"),
+      requestId: req.headers["x-request-id"] || "N/A",
     });
 
     errorResponse(res, errorMessage, err.meta, statusCode);
@@ -77,17 +78,17 @@ const errorHandler = (
     logger.error({
       message: err.message,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      comingFrom: 'Unknown',
-      status: 'error',
+      comingFrom: "Unknown",
+      status: "error",
       stack: err.stack,
       ip: req.ip,
-      userAgent: req.get('User-Agent'),
-      requestId: req.headers['x-request-id'] || 'N/A',
+      userAgent: req.get("User-Agent"),
+      requestId: req.headers["x-request-id"] || "N/A",
     });
 
     errorResponse(
       res,
-      'Something went wrong!',
+      "Something went wrong!",
       err,
       StatusCodes.INTERNAL_SERVER_ERROR,
     );

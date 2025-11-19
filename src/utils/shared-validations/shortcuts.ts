@@ -1,6 +1,6 @@
-import Joi from 'joi';
+import Joi from "joi";
 export const requiredString = Joi.string().required();
-export const optionalString = Joi.string().allow(null, '');
+export const optionalString = Joi.string().allow(null, "");
 export const requiredDate = Joi.date().iso().required();
 export const optionalDate = Joi.date().iso().optional();
 export const requiredNumber = Joi.number().required();
