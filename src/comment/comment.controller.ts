@@ -1,18 +1,17 @@
 import { Request, Response } from "express";
 import * as svc from "./comment.service";
 import { successResponse } from "@/utils/helper/response_helper";
+import { catchAsync } from "@/utils/catchAsync";
 
 const commentControllers = {
-  listComment: async(req: Request, res: Response) => {
-    try {
+  listComment: catchAsync(async(req: Request, res: Response) => {
+   
       const comment = await svc.listCommentService();
 
       return successResponse(res, "Comment List", comment);
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  createComment: async(req: Request, res: Response) => {
+    
+  }),
+  createComment: catchAsync(async(req: Request, res: Response) => {
     const { text, postId, authorId, isPublic } = req.body;
 
     const createComment = await svc.createComment({
@@ -22,21 +21,21 @@ const commentControllers = {
       isPublic,
     });
     return successResponse(res, "Comment Created", createComment);
-  },
-  updateComment: async(req: Request, res: Response) => {
+  }),
+  updateComment: catchAsync(async(req: Request, res: Response) => {
     const { id } = req.params;
     const { text } = req.body;
     const updatedComment = await svc.updateComment({ id, text });
 
     return successResponse(res, "Comment Updated", updatedComment);
-  },
+  }),
 
-  deleteComment: async(req: Request, res: Response) => {
+  deleteComment: catchAsync(async(req: Request, res: Response) => {
     const { id } = req.params;
     const deleteComment = await svc.deleteCommentService(id);
 
     return successResponse(res, "Comment Deleted", deleteComment);
-  },
+  }),
 };
 
 export default commentControllers;

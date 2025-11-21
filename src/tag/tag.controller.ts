@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as svc from "./tag.service";
-import { errorResponse, successResponse } from "@/utils/helper/response_helper";
+import { successResponse } from "@/utils/helper/response_helper";
 import { generateSlug } from "@/utils/generateSlug";
 import { catchAsync } from "@/utils/catchAsync";
 
