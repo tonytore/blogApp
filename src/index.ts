@@ -6,6 +6,7 @@ import tagRouter from "./tag/tag.router";
 import appConfig from "./config/app_configs";
 import categoryRouter from "./category/category.router";
 import errorHandler from "./utils/error/error_handler";
+import notFoundHandler from "./utils/error/not_found_error";
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use("/tag", tagRouter);
 app.use("/category", categoryRouter);
 
 
-
+app.use(notFoundHandler)
 app.use(errorHandler)
 
 app.listen(appConfig.PORT, () => {
