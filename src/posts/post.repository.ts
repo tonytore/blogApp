@@ -23,9 +23,23 @@ export async function listPostRepository() {
 }
 
 
-export async function getPostBySlug(slug: string){
+export async function getPostBySlug(slug: string) {
   const c = await db.post.findUnique({
-   where: {slug}
+    where: { slug }
+  })
+
+  return c
+}
+
+export async function getPostRepositoryById(id: string) {
+  const c = await db.post.findUnique({
+    where: { id },
+    include: {
+      author: true,
+      category: true,
+      comments: true,
+      tags: true,
+    },
   })
 
   return c

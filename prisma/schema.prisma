@@ -60,7 +60,7 @@ model Tag {
 }
 
 model Post {
-  id           String      @id @default(uuid())
+  id           String      @id @default(cuid())
   title        String
   slug         String      @unique
   excerpt      String?

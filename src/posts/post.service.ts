@@ -27,6 +27,10 @@ export async function getPostService() {
   return repo.listPostRepository();
 }
 
+export async function getPostServiceById(id: string) {
+  return repo.getPostRepositoryById(id);
+}
+
 export async function createPostService({
   title,
   excerpt,
