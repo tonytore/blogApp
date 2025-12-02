@@ -29,6 +29,13 @@ export async function createUserService({
   return repo.createUserRepository({ email, password, name, bio, avatarUrl });
 }
 
+export async function loginUserService({
+  email,
+  password,
+}: userData) {
+  return repo.loginUserRepository({ email, password });
+}
+
 export async function updateUserService({
   id,
   email,

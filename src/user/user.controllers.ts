@@ -17,6 +17,12 @@ const userControllers = {
       return successResponse(res, "User Created", user, 201);
     
   }),
+  loginUser: catchAsync(async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+      const user = await svc.loginUserService({ email, password });
+      return successResponse(res, "User Logged In", user);
+    
+  }),
   updateUser: catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { email, password, name, bio, avatarUrl } = req.body;

@@ -7,6 +7,8 @@ const appConfig = {
   CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5000",
   DATABASE_URL: process.env.DATABASE_URL,
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
+  ACCESS_TOKEN_EXPIRY: 1800,
+  ACCESS_TOKEN_EXPIRES_IN: process.env.ACCESS_TOKEN_EXPIRES_IN,
   PORT: process.env.PORT,
   LOKI_URL: process.env.LOKI_URL,
 };

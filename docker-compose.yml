@@ -1,0 +1,10 @@
+services:
+
+ postgres:
+    image: postgres:17.7
+    ports:
+      - 5438:5438
+    environment:
+      POSTGRES_DB: blogDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin

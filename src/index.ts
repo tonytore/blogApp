@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request,Response,NextFunction } from "express";
 import { userRouter } from "./user/user.route";
 import { postRouter } from "./posts/post.route";
 import commentRouter from "./comment/comment.router";
@@ -7,10 +7,19 @@ import appConfig from "./config/app_configs";
 import categoryRouter from "./category/category.router";
 import errorHandler from "./utils/error/error_handler";
 import notFoundHandler from "./utils/error/not_found_error";
+import fs from 'node:fs'
 
 const app = express();
 
 app.use(express.json());
+
+app.use((req:Request,_res:Response,next:NextFunction)=>{
+  const log = `\n [${Date.now()}] ${req.method} ${req.path}`
+  fs.appendFileSync('log.txt', log, "utf-8")
+  next()
+})
+
+
 app.use("/user", userRouter);
 app.use("/posts", postRouter);
 app.use("/comment", commentRouter);
