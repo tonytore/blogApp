@@ -9,7 +9,6 @@ const postControllers = {
   listPosts: catchAsync(async (req: Request, res: Response) => {
     const post = await svc.getPostService();
     return res.status(200).json(post);
-
   }),
   getPostById: catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -31,7 +30,6 @@ const postControllers = {
       views,
     });
     return successResponse(res, "Post Created", posts, 201);
-
   }),
 
   updatePosts: catchAsync(async (req: Request, res: Response) => {
@@ -50,7 +48,6 @@ const postControllers = {
       views,
     });
     return successResponse(res, "Post Updated", post);
-
   }),
 
   deletePosts: catchAsync(async (req: Request, res: Response) => {
@@ -58,7 +55,6 @@ const postControllers = {
 
     const post = await svc.deletePostService(id);
     return successResponse(res, "Post Deleted", post);
-
   }),
 
   connectPostToTag: catchAsync(async (req: Request, res: Response) => {
@@ -66,20 +62,17 @@ const postControllers = {
     const { tagId } = req.body;
     const result = await db.post.update({
       where: {
-        id
+        id,
       },
       data: {
         tags: {
           connect: {
-            id: tagId
-          }
-
-        }
-      }
-    })
+            id: tagId,
+          },
+        },
+      },
+    });
     return successResponse(res, "Post Connected to Tag", result);
   }),
-
-
 };
 export default postControllers;

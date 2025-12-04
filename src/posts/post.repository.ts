@@ -22,13 +22,12 @@ export async function listPostRepository() {
   }
 }
 
-
 export async function getPostBySlug(slug: string) {
   const c = await db.post.findUnique({
-    where: { slug }
-  })
+    where: { slug },
+  });
 
-  return c
+  return c;
 }
 
 export async function getPostRepositoryById(id: string) {
@@ -40,9 +39,9 @@ export async function getPostRepositoryById(id: string) {
       comments: true,
       tags: true,
     },
-  })
+  });
 
-  return c
+  return c;
 }
 
 export async function createPostRepository({

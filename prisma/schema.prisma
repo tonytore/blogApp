@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
@@ -20,24 +21,24 @@ enum PostStatus {
 }
 
 model User {
-  id         String    @id @default(cuid())
-  email      String    @unique
-  name       String?
-  bio        String?
-  avatarUrl  String?
-  password   String
-  role       Role      @default(USER)
-  posts      Post[]    @relation("AuthorPosts")
-  comments   Comment[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  bio       String?
+  avatarUrl String?
+  password  String
+  role      Role      @default(USER)
+  posts     Post[]    @relation("AuthorPosts")
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@map("users")
 }
 
 model Category {
-  id        String      @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String   @unique
   slug      String   @unique
   posts     Post[]
@@ -48,57 +49,55 @@ model Category {
 }
 
 model Tag {
-  id        String      @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String
   slug      String   @unique
   posts     Post[]
   createdAt DateTime @default(now())
-  @@unique([name])
 
+  @@unique([name])
   @@map("tags")
 }
 
 model Post {
-  id           String      @id @default(cuid())
-  title        String
-  slug         String      @unique
-  excerpt      String?
-  content      String
-  status       PostStatus  @default(DRAFT)
-  publishedAt  DateTime?
-  author       User?       @relation("AuthorPosts", fields: [authorId], references: [id])
-  authorId     String?
-  category     Category?   @relation(fields: [categoryId], references: [id])
-  categoryId   String?
-  tags         Tag[]
-  comments     Comment[]
-  views        Int         @default(0)
-  readingTime  Int?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  deletedAt    DateTime?
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String?
+  content     String
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  author      User?      @relation("AuthorPosts", fields: [authorId], references: [id])
+  authorId    String?
+  category    Category?  @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  tags        Tag[]
+  comments    Comment[]
+  views       Int        @default(0)
+  readingTime Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
 
   @@index([status])
   @@index([publishedAt])
   @@index([authorId])
-
   @@map("posts")
 }
 
 model Comment {
-  id         String      @id @default(cuid())
-  text       String
-  post       Post     @relation(fields: [postId], references: [id])
-  postId     String
-  author     User?    @relation(fields: [authorId], references: [id])
-  authorId   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  deletedAt  DateTime?
-  isPublic   Boolean  @default(true)
+  id        String    @id @default(cuid())
+  text      String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    String
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  isPublic  Boolean   @default(true)
 
   @@index([postId])
   @@index([authorId])
-
   @@map("comments")
 }

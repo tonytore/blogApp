@@ -13,19 +13,19 @@ export async function listTagRepository() {
   return tags;
 }
 
-export async function getTagBySlug(slug: string){
+export async function getTagBySlug(slug: string) {
   const c = await db.tag.findUnique({
-   where: {slug}
-  })
+    where: { slug },
+  });
 
-  return c
+  return c;
 }
 
-export async function createTagRepository({ name,slug }: createTagPayload) {
+export async function createTagRepository({ name, slug }: createTagPayload) {
   const tag = await db.tag.create({
     data: {
       name,
-      slug
+      slug,
     },
   });
   return tag;

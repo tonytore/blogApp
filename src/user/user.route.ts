@@ -1,7 +1,6 @@
 import { Router } from "express";
 import userControllers from "./user.controllers";
 
-
 export const userRouter = Router();
 
 userRouter.get("/", userControllers.listUser);

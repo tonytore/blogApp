@@ -16,21 +16,22 @@ export async function listCategoryRepository() {
   return categories;
 }
 
-export async function getCategoryBySlug(slug: string){
+export async function getCategoryBySlug(slug: string) {
   const c = await db.category.findUnique({
-   where: {slug}
-  })
+    where: { slug },
+  });
 
-  return c
+  return c;
 }
 
 export async function createCategoryRepository({
-  name,slug
+  name,
+  slug,
 }: createCategoryPayload) {
   const category = await db.category.create({
     data: {
       name,
-      slug
+      slug,
     },
   });
   return category;

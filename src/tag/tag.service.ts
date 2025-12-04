@@ -2,7 +2,7 @@ import * as repo from "./tag.repository";
 
 export type createTagPayload = {
   name: string;
-  slug: string
+  slug: string;
 };
 
 export type updateTagPayload = {
@@ -14,7 +14,7 @@ export async function listTagService() {
   return repo.listTagRepository();
 }
 
-export async function createTag({ name,slug }: createTagPayload) {
+export async function createTag({ name, slug }: createTagPayload) {
   const existingTag = await repo.getTagBySlug(slug);
   if (existingTag) {
     throw new Error(`Tag with slug "${slug}" already exists`);

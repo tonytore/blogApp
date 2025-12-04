@@ -5,20 +5,21 @@ import { generateSlug } from "@/utils/generateSlug";
 import { catchAsync } from "@/utils/catchAsync";
 
 const categoryControllers = {
-  listCategory: catchAsync(async(req: Request, res: Response) => {
-    
-      const category = await svc.listCategoryService();
+  listCategory: catchAsync(async (req: Request, res: Response) => {
+    const category = await svc.listCategoryService();
 
-      return successResponse(res, "Category List", category);
-    
+    return successResponse(res, "Category List", category);
   }),
-  createCategory: catchAsync(async(req: Request, res: Response) => {
+  createCategory: catchAsync(async (req: Request, res: Response) => {
     const { name } = req.body;
 
-    const createCategory = await svc.createCategory({ name, slug:generateSlug(name)});
+    const createCategory = await svc.createCategory({
+      name,
+      slug: generateSlug(name),
+    });
     return successResponse(res, "Category Created", createCategory);
   }),
-  updateCategory: catchAsync(async(req: Request, res: Response) => {
+  updateCategory: catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
     const updatedCategory = await svc.updateCategory({ id, name });
@@ -26,7 +27,7 @@ const categoryControllers = {
     return successResponse(res, "Category Updated", updatedCategory);
   }),
 
-  deleteCategory: catchAsync(async(req: Request, res: Response) => {
+  deleteCategory: catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const deleteCategory = await svc.deleteCategoryService(id);
 

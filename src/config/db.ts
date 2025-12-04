@@ -1,9 +1,21 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 import { logger } from "@/utils/logger/logger";
+import appConfig from "./app_configs";
 
-export const db = new PrismaClient({
-  omit: {},
+const pool = new Pool({
+  host: appConfig.DB_HOST,
+  port: Number(appConfig.DB_PORT),
+  database: appConfig.BLOG_DB,
+  user: appConfig.DB_USER,
+  password: appConfig.DB_PASSWORD,
+  max: 5,
 });
+
+const adapter = new PrismaPg(pool);
+
+export const db = new PrismaClient({ adapter });
 
 export async function connectToDB() {
   try {

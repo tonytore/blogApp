@@ -2,6 +2,11 @@ import env from "dotenv";
 env.config();
 
 const appConfig = {
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT,
+  DB_USER: process.env.DB_USER,
+  BLOG_DB: process.env.BLOG_DB,
+  DB_PASSWORD: process.env.DB_PASSWORD,
   APP_NAME: process.env.APP_NAME,
   NODE_ENV: process.env.NODE_ENV as "development" | "production",
   CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5000",

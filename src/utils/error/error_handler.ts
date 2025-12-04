@@ -10,7 +10,6 @@ const errorHandler = (
   res: Response,
   _next: NextFunction,
 ): void => {
-
   if (res.headersSent) {
     logger.error({ message: err.message, stack: err.stack, ip: req.ip });
     return;

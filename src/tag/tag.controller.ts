@@ -5,20 +5,18 @@ import { generateSlug } from "@/utils/generateSlug";
 import { catchAsync } from "@/utils/catchAsync";
 
 const tagControllers = {
-  listTag: catchAsync(async(req: Request, res: Response) => {
-    
+  listTag: catchAsync(async (req: Request, res: Response) => {
     const tag = await svc.listTagService();
 
     return successResponse(res, "Tag List", tag);
-  
-}),
-  createTag: catchAsync(async(req: Request, res: Response) => {
+  }),
+  createTag: catchAsync(async (req: Request, res: Response) => {
     const { name } = req.body;
 
-    const createTag = await svc.createTag({ name,slug:generateSlug(name) });
+    const createTag = await svc.createTag({ name, slug: generateSlug(name) });
     return successResponse(res, "Tag Created", createTag);
   }),
-  updateTag: catchAsync(async(req: Request, res: Response) => {
+  updateTag: catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
     const updatedTag = await svc.updateTag({ id, name });
@@ -26,7 +24,7 @@ const tagControllers = {
     return successResponse(res, "Tag Updated", updatedTag);
   }),
 
-  deleteTag: catchAsync(async(req: Request, res: Response) => {
+  deleteTag: catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const deleteTag = await svc.deleteTagService(id);
 

@@ -19,10 +19,6 @@
       "@/*": ["*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "prisma/**/*",
-    "Dockerfile"
-  ],
+  "include": ["src/**/*", "prisma/**/*", "Dockerfile"],
   "exclude": ["node_modules", "dist", "prisma"]
 }

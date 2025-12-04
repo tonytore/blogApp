@@ -5,7 +5,6 @@ import { updateUserData, userData } from "./user.service";
 import bcrypt from "bcrypt";
 import { UnauthenticatedError } from "@/utils/error/custom_error_handler";
 
-
 export async function listUserRepository() {
   try {
     const users = await db.user.findMany({
@@ -46,10 +45,14 @@ export async function createUserRepository({
       omit: { password: true },
       data: { email, password: hashedPassword, name, bio, avatarUrl },
     });
-    const accessToken = jwt.sign({ user: newUser }, appConfig.ACCESS_TOKEN_SECRET!, {
-      expiresIn: appConfig.ACCESS_TOKEN_EXPIRY as jwt.SignOptions['expiresIn'],
-    });
-
+    const accessToken = jwt.sign(
+      { user: newUser },
+      appConfig.ACCESS_TOKEN_SECRET!,
+      {
+        expiresIn:
+          appConfig.ACCESS_TOKEN_EXPIRY as jwt.SignOptions["expiresIn"],
+      },
+    );
 
     return { newUser, accessToken };
   } catch (error) {
@@ -58,26 +61,23 @@ export async function createUserRepository({
   }
 }
 
-export async function loginUserRepository({
-  email,
-  password,
-}: userData) {
+export async function loginUserRepository({ email, password }: userData) {
   try {
     const user = await db.user.findUnique({
       where: { email },
     });
     if (!user) {
-      throw new UnauthenticatedError('error.invalidCredentials', 'AuthService');
+      throw new UnauthenticatedError("error.invalidCredentials", "AuthService");
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new UnauthenticatedError('error.invalidCredentials', 'AuthService');
+      throw new UnauthenticatedError("error.invalidCredentials", "AuthService");
     }
 
     const token = jwt.sign({ user }, appConfig.ACCESS_TOKEN_SECRET!, {
       expiresIn: appConfig.ACCESS_TOKEN_EXPIRES_IN as any,
     });
-    const { password: _password, ...other } = user
+    const { password: _password, ...other } = user;
     void password;
     return { ...other, token };
   } catch (error) {
