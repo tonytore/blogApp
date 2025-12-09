@@ -4,10 +4,12 @@ import bcrypt from "bcrypt";
 import { db } from "../config/db";
 import { successResponse } from "@/utils/helper/response_helper";
 import { catchAsync } from "@/utils/catchAsync";
+import { logger } from "@/utils/logger/logger";
 
 const userControllers = {
   listUser: catchAsync(async (req: Request, res: Response) => {
     const user = await svc.getUserService();
+    logger.info("User List", user);
     return successResponse(res, "User List", user);
   }),
   createUser: catchAsync(async (req: Request, res: Response) => {

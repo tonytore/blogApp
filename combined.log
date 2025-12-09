@@ -1,0 +1,33 @@
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:41:25.833Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:41:28.027Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:44:25.221Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:44:26.752Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:44:32.804Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:44:35.753Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:44:37.800Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:44:38.713Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:45:36.844Z"}
+{"level":"info","message":"server is running on port http://localhost:3001","timestamp":"2025-12-09T07:45:38.680Z"}
+2025-12-09T07:46:09.333Z info: server is running on port http://localhost:3001
+2025-12-09T07:46:12.983Z info: server is running on port http://localhost:3001
+2025-12-09T07:46:14.741Z info: server is running on port http://localhost:3001
+2025-12-09T07:46:19.030Z error: Route /users not found
+2025-12-09T07:47:00.792Z info: server is running on port http://localhost:3001
+2025-12-09T07:47:46.453Z error: Route /users not found
+2025-12-09T07:51:12.916Z info: server is running on port http://localhost:3001
+2025-12-09T07:51:55.425Z info: server is running on port http://localhost:3001
+2025-12-09T07:51:56.959Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:00.609Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:05.926Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:11.501Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:12.216Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:34.122Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:36.422Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:45.503Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:49.976Z info: server is running on port http://localhost:3001
+2025-12-09T07:52:52.895Z info: User List
+2025-12-09T07:53:37.214Z info: server is running on port http://localhost:3001
+2025-12-09T07:53:38.396Z info: server is running on port http://localhost:3001
+2025-12-09T07:54:02.547Z info: server is running on port http://localhost:3001
+2025-12-09T07:54:09.491Z info: server is running on port http://localhost:3001
+2025-12-09T08:05:40.511Z error: Route /favicon.ico not found

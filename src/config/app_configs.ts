@@ -14,8 +14,8 @@ const appConfig = {
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   ACCESS_TOKEN_EXPIRY: 1800,
   ACCESS_TOKEN_EXPIRES_IN: process.env.ACCESS_TOKEN_EXPIRES_IN,
-  PORT: process.env.PORT,
-  LOKI_URL: process.env.LOKI_URL,
+  PORT: process.env.PORT || 3000,
+  LOG_LEVEL: process.env.LOG_LEVEL,
 };
 
 export default appConfig;

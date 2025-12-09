@@ -8,6 +8,7 @@ import categoryRouter from "./category/category.router";
 import errorHandler from "./utils/error/error_handler";
 import notFoundHandler from "./utils/error/not_found_error";
 import fs from "node:fs";
+import { logger } from "./utils/logger/logger";
 
 const app = express();
 
@@ -35,5 +36,5 @@ app.use(errorHandler);
 // const PORT = process.env.PORT || appConfig.PORT;
 
 app.listen(appConfig.PORT, () => {
-  console.log(`server is running on port http://localhost:${appConfig.PORT}`);
+  logger.info(`server is running on port http://localhost:${appConfig.PORT}`);
 });
