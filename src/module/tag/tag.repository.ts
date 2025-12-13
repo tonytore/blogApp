@@ -1,4 +1,4 @@
-import { db } from "../config/db";
+import { db } from "../../config/db";
 import { createTagPayload, updateTagPayload } from "./tag.service";
 
 export async function listTagRepository() {

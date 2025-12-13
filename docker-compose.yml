@@ -7,5 +7,17 @@
 #       POSTGRES_DB: blogDb
 #       POSTGRES_USER: postgres
 #       POSTGRES_PASSWORD: admin
+#   mysql:
+#     container_name: mysql_container
+#     image: mysql:8.0
+#     ports:
+#       - "3306:3306"
+#     env_file:
+#       - ./env/mysql.env
+
+#     volumes:
+#       - ./docker-volumes/mysql:/var/lib/mysql
+# volumes:
+#   docker-volumes:
 
 

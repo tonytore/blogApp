@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import * as svc from "./tag.service";
-import { successResponse } from "@/utils/helper/response_helper";
-import { generateSlug } from "@/utils/generateSlug";
-import { catchAsync } from "@/utils/catchAsync";
+import { successResponse } from "utils/helper/response_helper";
+import { generateSlug } from "utils/generateSlug";
+import { catchAsync } from "utils/catchAsync";
 
 const tagControllers = {
   listTag: catchAsync(async (req: Request, res: Response) => {

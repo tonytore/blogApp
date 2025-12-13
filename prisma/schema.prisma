@@ -24,15 +24,18 @@ model User {
   id        String    @id @default(cuid())
   email     String    @unique
   name      String?
-  bio       String?
-  avatarUrl String?
+  email_verified_at DateTime? 
+  avatarUrl String? @default("https://cdn-icons-png.flaticon.com/512/149/149071.png")
   password  String
-  role      Role      @default(USER)
-  posts     Post[]    @relation("AuthorPosts")
-  comments  Comment[]
+  
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+
+  role      Role      @default(USER)
+  posts     Post[]    @relation("AuthorPosts")
+  comments  Comment[]
+  sessions  sessions[]
 
   @@map("users")
 }
@@ -100,4 +103,23 @@ model Comment {
   @@index([postId])
   @@index([authorId])
   @@map("comments")
+}
+
+model password_reset_tokens {
+  email     String   @id @default(cuid())
+  token     String
+  createdAt DateTime? @map("created_at")
+}
+
+model sessions {
+  id           String   @id @default(cuid())
+  user_id      String?     
+  ip_address   String?  @db.VarChar(45)
+  user_agent   String?
+  payload      String    @db.VarChar(255)
+  last_activity Int
+
+  user User? @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
 }

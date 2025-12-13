@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import * as svc from "../user/user.service";
+import * as svc from "./user.service";
 import bcrypt from "bcrypt";
-import { db } from "../config/db";
-import { successResponse } from "@/utils/helper/response_helper";
-import { catchAsync } from "@/utils/catchAsync";
+import { db } from "../../config/db";
+import catchAsync from "@/utils/helper/catch_async";
 import { logger } from "@/utils/logger/logger";
+import { successResponse } from "@/utils/helper/response_helper";
 
 const userControllers = {
   listUser: catchAsync(async (req: Request, res: Response) => {
@@ -16,6 +16,11 @@ const userControllers = {
     const { email, password } = req.body;
     const user = await svc.createUserService({ email, password });
     return successResponse(res, "User Created", user, 201);
+  }),
+  getByEmail: catchAsync(async (req: Request, res: Response) => {
+    const { email } = req.params;
+    const user = await svc.getByEmailService(email);
+    return successResponse(res, "User Found", user);
   }),
   loginUser: catchAsync(async (req: Request, res: Response) => {
     const { email, password } = req.body;

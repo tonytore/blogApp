@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import appConfig from "@/config/app_configs";
-import { db } from "../config/db";
+import { db } from "../../config/db";
 import { updateUserData, userData } from "./user.service";
 import bcrypt from "bcrypt";
 import { UnauthenticatedError } from "@/utils/error/custom_error_handler";
@@ -18,6 +18,18 @@ export async function listUserRepository() {
       return other;
     });
     return filteredUsers;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getByEmailRepository(email: string) {
+  try {
+    const user = await db.user.findUnique({
+      where: { email },
+    });
+    return user;
   } catch (error) {
     console.error(error);
     throw error;
@@ -43,7 +55,7 @@ export async function createUserRepository({
 
     const newUser = await db.user.create({
       omit: { password: true },
-      data: { email, password: hashedPassword, name, bio, avatarUrl },
+      data: { email, password: hashedPassword, name, avatarUrl },
     });
     const accessToken = jwt.sign(
       { user: newUser },
@@ -53,8 +65,16 @@ export async function createUserRepository({
           appConfig.ACCESS_TOKEN_EXPIRY as jwt.SignOptions["expiresIn"],
       },
     );
+    const refreshToken = jwt.sign(
+      { user: newUser },
+      appConfig.REFRESH_TOKEN_SECRET!,
+      {
+        expiresIn:
+          appConfig.REFRESH_TOKEN_EXPIRY as jwt.SignOptions["expiresIn"],
+      },
+    );
 
-    return { newUser, accessToken };
+    return { newUser, accessToken, refreshToken };
   } catch (error) {
     console.error(error);
     throw error;
@@ -91,13 +111,12 @@ export async function updateUserRepository({
   email,
   password,
   name,
-  bio,
   avatarUrl,
 }: updateUserData) {
   try {
     const updatedUser = await db.user.update({
       where: { id },
-      data: { email, password, name, bio, avatarUrl },
+      data: { email, password, name, avatarUrl },
     });
     return updatedUser;
   } catch (error) {

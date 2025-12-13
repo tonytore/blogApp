@@ -1,4 +1,4 @@
-import * as repo from "@/user/user.repository";
+import * as repo from "@/module/user/user.repository";
 
 export interface userData {
   email: string;
@@ -27,6 +27,10 @@ export async function createUserService({
   avatarUrl,
 }: userData) {
   return repo.createUserRepository({ email, password, name, bio, avatarUrl });
+}
+
+export async function getByEmailService(email: string) {
+  return repo.getByEmailRepository(email);
 }
 
 export async function loginUserService({ email, password }: userData) {

@@ -1,4 +1,4 @@
-import { db } from "../config/db";
+import { db } from "../../config/db";
 import { createPostPayload, updatePostPayload } from "./post.service";
 
 export async function listPostRepository() {

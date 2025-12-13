@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import * as svc from "../posts/post.service";
+import * as svc from "./post.service";
 import { generateSlug } from "@/utils/generateSlug";
 import { successResponse } from "@/utils/helper/response_helper";
 import { catchAsync } from "@/utils/catchAsync";
-import { db } from "@/config/db";
+import { db } from "../../config/db";
 
 const postControllers = {
   listPosts: catchAsync(async (req: Request, res: Response) => {

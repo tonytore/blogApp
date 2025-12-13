@@ -28,7 +28,6 @@ async function main() {
       name: "Author User",
       password: hashedPassword,
       role: "AUTHOR",
-      bio: "Tech blogger and developer",
     },
   });
 

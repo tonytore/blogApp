@@ -1,14 +1,14 @@
 import express, { Request, Response, NextFunction } from "express";
-import { userRouter } from "./user/user.route";
-import { postRouter } from "./posts/post.route";
-import commentRouter from "./comment/comment.router";
-import tagRouter from "./tag/tag.router";
+import { userRouter } from "./module/user/user.route";
+import { postRouter } from "./module/posts/post.route";
+import commentRouter from "./module/comment/comment.router";
 import appConfig from "./config/app_configs";
-import categoryRouter from "./category/category.router";
-import errorHandler from "./utils/error/error_handler";
-import notFoundHandler from "./utils/error/not_found_error";
+import categoryRouter from "./module/category/category.router";
 import fs from "node:fs";
+import notFoundHandler from "./utils/error/not_found_error";
+import errorHandler from "./utils/error/error_handler";
 import { logger } from "./utils/logger/logger";
+import tagRouter from "./module/tag/tag.router";
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next();
 });
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response) => {
   res.send("Hello World!");
 });
 

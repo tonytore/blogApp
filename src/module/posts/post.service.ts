@@ -1,5 +1,5 @@
 import { PostStatus } from "@prisma/client";
-import * as repo from "../posts/post.repository";
+import * as repo from "./post.repository";
 
 export interface createPostPayload {
   title: string;
